@@ -53,12 +53,22 @@ for s in subject:
         Trig_respid_size = response_events.shape[0]
         # low-pass filtered to 250 Hz
         raw._data = mne.filter.low_pass_filter(raw._data, Fs=1000, Fp=250,picks=None, method = 'fft')
+        raw.copy().pick_types(meg='mag')
+        raw.plot_psd(tmax=100, fmax=250)
+
+        # The subsequent decoding analyses only capture evoked responses, so we can
+        # low-pass the MEG data. Usually a value more like 40 Hz would be used,
+        # but here low-pass at 20 so we can more heavily decimate, and allow
+        # the examlpe to run faster.
+        raw_lowpass=raw.filter(None, 20., method='fft')
+
 
 
         # Keep only MEG data
-        # meg = raw.pick_types(meg=True)
+        meg = raw.pick_types(meg=True)
+
         # create epochs
-        epochs_stim = mne.Epochs(raw, stim_events, event_id=Trig_id, tmin=-1.5,
+        epochs_stim = mne.Epochs(meg, stim_events, event_id=Trig_id, tmin=-1.5,
                                  tmax=1.5, baseline=(-1.5, -1), preload=True)
         print epochs_stim
         epochs_stim.plot_sensors(kind='topomap', ch_type='mag')
@@ -68,11 +78,11 @@ for s in subject:
         evoked_circle = epochs_stim['542'].average()
         evoked_diamond = epochs_stim['552'].average()
 
-        epoch_resp = mne.Epochs(raw, response_events, event_id=Trig_respid, tmin=-3.5,
+        epoch_resp = mne.Epochs(meg, response_events, event_id=Trig_respid, tmin=-3.5,
                                 tmax=1, baseline=(-3.5, -3), preload=True)
         print epoch_resp
         epoch_resp.plot_sensors(kind='topomap', ch_type='mag')
-        epoch_resp.plot(events=response_events, n_channels=20)
+        epoch_resp.plot(n_channels=20)
         evoked_resp_right = epoch_resp['2944'].average()
         evoked_resp_left = epoch_resp['2432'].average()
         evoked_noresp = epoch_resp['3456'].average()
