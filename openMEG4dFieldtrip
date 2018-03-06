@@ -1,0 +1,23 @@
+path= ('/envau/work/comco/ficarella.s/etudeMEG/forFrioul/sb1/MEG/1');
+%cd(path)
+ft_defaults
+%hdr = ft_read_header('c,rfDC');
+fName = strcat(path, '/c,rfDC');
+%% qui ci metto tutti i filtri e le modifiche che voglio applicare ai dati veramente
+cfg=[];
+cfg.dataset=fName;
+cfg.trialdef.triallength=Inf;
+cfg.continuous='yes';
+cfg=ft_definetrial(cfg);
+
+data=ft_preprocessing(cfg);
+%% qui ci metto quello che voglio applicare solo alla visualizzazione
+cfg=[];
+cfg.demean='yes';
+cfg.preproc.lpfilter = 'yes';
+cfg.preproc.lpfreq =50;
+cfg.channel=['MEG'];
+cfg.layout='4D248.lay';
+%cfg.dataset=fName;
+cfg.ylim=[-2e-11 2e-11];
+ft_databrowser(cfg,data);
