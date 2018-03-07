@@ -14,17 +14,19 @@ for s=1:length(subject)
         path=char(strcat(genpath,subject{s}, '/MEG/', num2str(run)));
         cd(path)
         fName = strcat(path, '/c,rfDC');
+
         %qui ci metto tutti i filtri e le modifiche che voglio applicare ai dati veramente
         cfg=[];
         cfg.dataset=fName;
-        cfg.trialdef.triallength=Inf;
+        %cfg.trialdef.triallength=Inf;
         cfg.continuous='yes';
-        cfg=ft_definetrial(cfg);
-        cfg.layout='4D248.lay';
+        cfg.channel={'MEG'};
+        %cfg=ft_definetrial(cfg);
+        %cfg.layout='4D248.lay';
         %type=ft_chantype('EMGg',emg);
         %data=ft_channelselection={'meg','X1','X2','EM*','EKG','TR*','RES*','VEOG'};
         data=ft_preprocessing(cfg);
-        data=ft_datatype_raw(data);
+        %data=ft_datatype_raw(data);
         %hack to insert refchan location when missing
 %         for i=1:size(data.grad.chanori,1)
 %             if data.grad.chanori(i,1)==0
@@ -61,8 +63,8 @@ for s=1:length(subject)
 %         end
 %         
                 
-        fiff_file=char(strcat(subject{s}, '_', num2str(run), '_MEG.fif'));
-        fieldtrip2fiff(fiff_file, data_tmp);
+        fiff_file=char(strcat('/hpc/comco/ficarella.s/etudeMEG/', subject{s}, '_', num2str(run), '_raw.fif'));
+        fieldtrip2fiff(fiff_file, data);
         % cfg.channel='all';
         % cfg.latency=[0 inf];
         % data.fsample=1000;
@@ -76,7 +78,8 @@ for s=1:length(subject)
 end
 
 
-
+outpath= ('/hpc/comco/ficarella.s/etudeMEG/');
+cd(outpath)
 
 %% qui ci metto quello che voglio applicare solo alla visualizzazione
 cfg=[];
@@ -87,4 +90,5 @@ cfg.channel={'MEG'};
 cfg.layout='4D248.lay';
 %cfg.dataset=fName;
 cfg.ylim=[-2e-11 2e-11];
-ft_databrowser(cfg,data_tmp);
+%ft_databrowser(cfg,data_tmp);
+ft_rejectvisual(cfg,data_tmp);
