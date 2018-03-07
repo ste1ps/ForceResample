@@ -1,22 +1,53 @@
-path= ('/envau/work/comco/ficarella.s/etudeMEG/forFrioul/sb1/MEG/1');
-%cd(path)
+genpath= ('/envau/work/comco/ficarella.s/etudeMEG/forFrioul/');
+cd(genpath)
 ft_defaults
 %hdr = ft_read_header('c,rfDC');
-fName = strcat(path, '/c,rfDC');
-%% qui ci metto tutti i filtri e le modifiche che voglio applicare ai dati veramente
-cfg=[];
-cfg.dataset=fName;
-cfg.trialdef.triallength=Inf;
-cfg.continuous='yes';
-cfg=ft_definetrial(cfg);
+subject={'sb1','sb2','sb3','sb4','sb5','sb6','sb7','sb8','sb9','sb10','sb11',...
+    'sb12','sb15','sb16','sb17','sb18','sb19'};
+for s=1:length(subject)
+    if s == 12
+        totrun = 5;
+    else
+        totrun = 4;
+    end
+    for run=1:totrun
+        path=char(strcat(genpath,subject{s}, '/MEG/', num2str(run)));
+        cd(path)
+        fName = strcat(path, '/c,rfDC');
+        %qui ci metto tutti i filtri e le modifiche che voglio applicare ai dati veramente
+        cfg=[];
+        cfg.dataset=fName;
+        cfg.trialdef.triallength=Inf;
+        cfg.continuous='yes';
+        cfg=ft_definetrial(cfg);
+        cfg.layout='4D248.lay';
+        data=ft_preprocessing(cfg);
+        cfg=[];
+        cfg.channel={'meg','X1','X2','EM*','EKG','TR*','RES*','VEOG'};
+        data_tmp = ft_selectdata(cfg, data);
+        fiff_file=char(strcat(subject{s}, '_', num2str(run), '_MEG.fif'));
+        fieldtrip2fiff(fiff_file, data_tmp);
+        % cfg.channel='all';
+        % cfg.latency=[0 inf];
+        % data.fsample=1000;
+        % data.channel='MAG';
+        % data=ft_resampledata(cfg,data);
+        
+        
+        
+        
+    end
+end
 
-data=ft_preprocessing(cfg);
+
+
+
 %% qui ci metto quello che voglio applicare solo alla visualizzazione
 cfg=[];
-cfg.demean='yes';
+cfg.preproc.demean='yes';
 cfg.preproc.lpfilter = 'yes';
 cfg.preproc.lpfreq =50;
-cfg.channel=['MEG'];
+cfg.channel={'MEG'};
 cfg.layout='4D248.lay';
 %cfg.dataset=fName;
 cfg.ylim=[-2e-11 2e-11];
