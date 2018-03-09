@@ -17,7 +17,7 @@ sbj_types={'sb1':'dm','sb2':'dm','sb3':'dm','sb4':'dm','sb5':'dm','sb6':'bv','sb
            'sb18':'dm','sb19':'dm'}
 subject=['sb1','sb2','sb3','sb4','sb5','sb6','sb7','sb8','sb9','sb10','sb11',\
 'sb12','sb15','sb16','sb17','sb18','sb19']
-os.chdir('./../../../../../')
+os.chdir('./../../../../../../../../../../')
 os.getcwd()
 os.chdir(path_dir)
 #list_dir = os.listdir(path_dir)

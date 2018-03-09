@@ -1,6 +1,8 @@
 # Author: Alexandre Fabre <alexandre.fabre22@gmail.com>
 #         Andrea Brovelli
 
+import sys
+sys.path.insert(0, '/home/ficarella.s/PycharmProjects/ForceResample/')
 # from brain import get_brain
 from preprocessing_proACT import preprocessing_meg_te
 
