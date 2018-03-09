@@ -9,7 +9,7 @@ from scipy.stats.mstats import zscore
 
 
 def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, head_shape_name,
-                         response_chan_name='STI_013', trigger_chan_name='STI_014',
+                         response_chan_name='RESPONSE', trigger_chan_name='TRIGGER',
                          data_id=None, noise_id=None):
 
     # Load raw data
@@ -69,8 +69,22 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, 
     resps = resps[c]
     rews = rews[c]'''
 
+    raw.set_channel_types({
+        'EMGg': 'emg',
+        'EMGd': 'emg',
+        'EKG' : 'ecg',
+        'VEOG' :'eog',
+        'X1' :'emg',
+        'X2' :'emg'
+        })
+
     # MEG data
-    meg = raw.pick_types(meg=True)
+    meg = raw.copy().pick_types(meg=True)
+
+    # EMG and Force data
+    emg=raw.copy().pick_types(meg=False,include=['EMGg','EMGd','X1','X2'])
+
+    ekg=raw.copy().pick_types(meg=False, include=['EKG'])
 
     # Create epochs for baseline
     epochs_b = mne.Epochs(meg, cues, tmin=-2, tmax=0)
@@ -84,6 +98,9 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, 
     # Create epochs on action
     epochs_a = mne.Epochs(meg, resps, tmin=-1.0, tmax=1.0)
 
+    #If I want to apply the SSP with these (default) parameters it deletes 155 epochs. Need to discard bad chans first
+    epochs_s2 = mne.Epochs(meg, stims, tmin=-0.5, tmax=1.5, reject=dict(
+        mag=4e-12,  # T (magnetometers)), proj='delayed')
 
     #
     # # Resample epochs
@@ -135,9 +152,9 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, 
     epochs_a.save(subjects_dir+'{0}/prep/{1}/{0}_action-epo.fif'.format(subject, session))'''
 
     return
-
-if __name__=="__main__":
-    pass
+'''
+if __name__=="__main__proACT__":
+    pass'''
 
 
 

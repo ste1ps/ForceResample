@@ -37,6 +37,7 @@ def do_preprocessing(subjects_dir='/envau/work/comco/ficarella.s/etudeMEG/forFri
     fname_bti = subjects_dir + '{0}/MEG/{1}/c,rfDC'.format(subject, session)
     fname_config = subjects_dir + '{0}/MEG/{1}/config'.format(subject, session)
     fname_hs = subjects_dir + '{0}/MEG/{1}/hs_file'.format(subject, session)
+    output_dir='/hpc/comco/ficarella.s/etudeMEG/'
 
     # -------------------------------------------------------------------------------------------------------------------
     # Preprocessing

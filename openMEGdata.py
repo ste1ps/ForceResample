@@ -96,7 +96,7 @@ raw.plot_psd(tmax=100, fmax=250)
 
 
 # Keep only MEG data
-meg = raw.pick_types(meg=True)
+meg = raw.copy().pick_types(meg=True)
 ch_names=meg.ch_names
 ch_indices = meg._get_channel_positions()
 for i in np.arange(len(ch_names)):
@@ -134,6 +134,7 @@ evoked_resp_right = epoch_resp['2944'].average()
 evoked_resp_left = epoch_resp['2432'].average()
 evoked_noresp = epoch_resp['3456'].average()
 
+proj=mne.compute_proj_raw(raw, start=0, stop=None, duration=1, n_grad=0, n_mag=2, n_eeg=0, reject=None, flat=None, n_jobs=1, verbose=None)
 
 
 tmin, tmax = [0, 60]  # use the first 60s of data
@@ -147,5 +148,5 @@ n_fft = 1000
 plt.figure()
 ax = plt.axes()
 raw.plot_psd(tmin=tmin, tmax=tmax, fmin=fmin, fmax=fmax, n_fft=n_fft,
-             n_jobs=1, proj='False', ax=ax, color=(0, 0, 1),  picks='mag',
+             n_jobs=1, proj=proj, ax=ax, color=(0, 0, 1),  picks='mag',
              show='False')
