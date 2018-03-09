@@ -1,5 +1,5 @@
 # Author: Alexandre Fabre <alexandre.fabre22@gmail.com>
-#         Andrea Brovelli
+#         Stefania Ficarella
 
 import sys
 sys.path.insert(0, '/home/ficarella.s/PycharmProjects/ForceResample/')
