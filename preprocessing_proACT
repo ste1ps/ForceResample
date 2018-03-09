@@ -100,7 +100,7 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, 
 
     #If I want to apply the SSP with these (default) parameters it deletes 155 epochs. Need to discard bad chans first
     epochs_s2 = mne.Epochs(meg, stims, tmin=-0.5, tmax=1.5, reject=dict(
-        mag=4e-12,  # T (magnetometers)), proj='delayed')
+        mag=4e-12))  # T (magnetometers)), proj='delayed')
 
     #
     # # Resample epochs
@@ -136,7 +136,7 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, 
     bad_trials=np.array([5, 17, 20, 33, 59])-1
     epochs_b.drop(indices=bad_trials)
     epochs_s.drop(indices=bad_trials)
-    epochs_a.drop(indices=bad_trials)
+    epochs_c.drop(indices=bad_trials)
     # epochs_r.drop(indices=bad_trials)
     # # Drop channels with large RMS
     # bad_chans=[epochs_a.ch_names[28]]
