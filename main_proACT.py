@@ -12,9 +12,9 @@ from mne.viz import circular_layout, plot_connectivity_circle
 import numpy as np
 import matplotlib.pyplot as plt
 # from data import (read_serialize,
-                  Master,
-                  serialize,
-                  create_trans)
+# Master,
+# serialize,
+#  create_trans)
 
 
 # from connectivity import (linear_corr,
@@ -152,11 +152,11 @@ def do_preprocessing(subjects_dir='/envau/work/comco/ficarella.s/etudeMEG/forFri
 
 def compute_singletrial_source_power(subjects_dir='/hpc/comco/brovelli.a/db_mne/meg_te/', subject='subject_04',
                                      session='1', event='action'):
-    '''
-    Pipeline for the calculation of single trials estimates of power at the source level using MarsAtlas
-    '''
 
-    # -------------------------------------------------------------------------------------------------------------------
+    Pipeline for the calculation of single trials estimates of power at the source level using MarsAtlas
+
+
+    #-------------------------------------------------------------------------------------------------------------------
     # Anatomical data
     # -------------------------------------------------------------------------------------------------------------------
     # File to align coordinate frames meg2mri computed using mne analyze (interactive gui)
