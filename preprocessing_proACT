@@ -153,7 +153,7 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, 
 
     return
 '''
-if __name__=="__main__proACT__":
+if __name__=="__main__":
     pass'''
 
 
