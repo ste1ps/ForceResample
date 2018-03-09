@@ -136,8 +136,8 @@ evoked_noresp = epoch_resp['3456'].average()
 
 
 
-tmin, tmax = 0, 60  # use the first 60s of data
-fmin, fmax = 2, 45  # look at frequencies between 2 and 250Hz
+tmin, tmax = [0, 60]  # use the first 60s of data
+fmin, fmax = [2, 45]  # look at frequencies between 2 and 250Hz
 n_fft = 1000
 
 # Add SSP projection vectors to reduce EOG and ECG artifacts
@@ -147,5 +147,5 @@ n_fft = 1000
 plt.figure()
 ax = plt.axes()
 raw.plot_psd(tmin=tmin, tmax=tmax, fmin=fmin, fmax=fmax, n_fft=n_fft,
-             n_jobs=1, proj=False, ax=ax, color=(0, 0, 1),  picks='mag',
-             show=False)
+             n_jobs=1, proj='False', ax=ax, color=(0, 0, 1),  picks='mag',
+             show='False')

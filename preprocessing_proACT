@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from scipy.stats.mstats import zscore
 
 
-def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name='config', head_shape_name='hs_file',
+def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name, head_shape_name,
                          response_chan_name='STI_013', trigger_chan_name='STI_014',
                          data_id=None, noise_id=None):
 
@@ -26,7 +26,7 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name='
     raw.notch_filter(np.arange(50, 151, 50))
 
     # Save raw data
-    raw.save(subjects_dir + '{0}/raw/{1}/{0}_raw.fif'.format(subject, session), overwrite=True)
+    # raw.save(subjects_dir + '{0}/raw/{1}/{0}_raw.fif'.format(subject, session), overwrite=True)
 
     # Remode power noise
     # raw.notch_filter(np.arange(50, 251, 50), phase='zero-double')
@@ -35,7 +35,7 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name='
     events = mne.find_events(raw, stim_channel=trigger_chan_name)
 
     # Save event file for mne_analyze
-    mne.write_events(subjects_dir + '{0}/prep/{1}/{0}-eve.fif'.format(subject, session), events)
+    #mne.write_events(subjects_dir + '{0}/prep/{1}/{0}-eve.fif'.format(subject, session), events)
 
     # Responses
     resps = mne.find_events(raw, stim_channel=response_chan_name)
@@ -128,11 +128,11 @@ def preprocessing_meg_te(subjects_dir, subject, session, pdf_name, config_name='
     # epochs_a.info['bads']=bad_chans
     # epochs_r.info['bads']=bad_chans
 
-    # save
+    '''# save
     epochs_b.save(subjects_dir+'{0}/prep/{1}/{0}_baseline-epo.fif'.format(subject, session))
     epochs_c.save(subjects_dir+'{0}/prep/{1}/{0}_cue-epo.fif'.format(subject, session))
     epochs_s.save(subjects_dir+'{0}/prep/{1}/{0}_stim-epo.fif'.format(subject, session))
-    epochs_a.save(subjects_dir+'{0}/prep/{1}/{0}_action-epo.fif'.format(subject, session))
+    epochs_a.save(subjects_dir+'{0}/prep/{1}/{0}_action-epo.fif'.format(subject, session))'''
 
     return
 
